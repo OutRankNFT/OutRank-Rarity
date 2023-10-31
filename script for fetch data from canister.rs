@@ -1,22 +1,14 @@
 // fetch canister data
 // input is canister id as string
 // output is trait object array Vec<std::collections::HashMap<String, String>> and trait value array Vec<String>
-fn fetch_canister_data(input: String) -> (Vec<std::collections::HashMap<String, String>> , Vec<String>) {
+pub async fn fetch_canister_data(input: String) -> (Vec<std::collections::HashMap<String, String>> , Vec<String>) {
     let mut trait_object_array: Vec<std::collections::HashMap<String, String>> = Vec::new();
     let mut trait_array: Vec<String> = Vec::new();
-    let output = Command::new("dfx")
-        .arg("canister")
-        .arg("call")
-        .arg("--network")
-        .arg("ic")
-        .arg(input)
-        .arg("getTokens")
-        .output()
-        .expect("failed to deploy websites");
-
-    if output.status.success() {
-        let stdout = String::from_utf8_lossy(&output.stdout).to_string();
-        let pretty_string = to_string_pretty(&stdout).expect("can't convert string");
+    
+    let result: ic_cdk::api::call::CallResult<(String,())> = ic_cdk::api::call::call(ic_cdk::export::Principal::from_text(input).unwrap(), "getTokens", ()).await;
+    
+    if Ok(result) {
+        let pretty_string = serde_json::to_string_pretty(&result).expect("can't convert string");
 
         let string_data = pretty_string.replace("\\\\22", r#"""#);
         let mut data = string_data.as_str();
@@ -53,7 +45,6 @@ fn fetch_canister_data(input: String) -> (Vec<std::collections::HashMap<String, 
                     continue;
                 }
             }
-            //success split one nft trait object
             let res;
             (res, _) = record.split_at(end + 1);
             let json_array: Vec<TraitType> = serde_json::from_str(res).unwrap();
