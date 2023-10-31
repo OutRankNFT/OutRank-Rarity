@@ -5,14 +5,15 @@ pub async fn fetch_canister_data(input: String) -> (Vec<std::collections::HashMa
     let mut trait_object_array: Vec<std::collections::HashMap<String, String>> = Vec::new();
     let mut trait_array: Vec<String> = Vec::new();
     
+    // perform inter-canister call to fetch canister data(NFT collections trait data)
     let result: ic_cdk::api::call::CallResult<(String,())> = ic_cdk::api::call::call(ic_cdk::export::Principal::from_text(input).unwrap(), "getTokens", ()).await;
-    
+    // in case success to fetch data
     if Ok(result) {
         let pretty_string = serde_json::to_string_pretty(&result).expect("can't convert string");
-
+        // remove double quote
         let string_data = pretty_string.replace("\\\\22", r#"""#);
         let mut data = string_data.as_str();
-
+        
         let mut index = data.find("record { 0 :").unwrap_or(0);
         (_, data) = data.split_at(index);
         let mut pointer = 1;
