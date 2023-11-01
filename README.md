@@ -3,11 +3,15 @@ we've implemented mathematical code to calculate rarity of NFT collections in bo
 - rarity_math_code_python.ipynb is for Python code and 
 - rarity_math_code_rust.rs is for Rust code.
 - script_for_fetch_data_from_canister.rs is for Rust code to fetch NFT collections trait data(we'll call this "canister data") by inter-canister call.
-- Here is a breif explanation for rarity_math_code_rust.rs.
+Here is a breif explanation for rarity_math_code_rust.rs.
+
 ## Basic Usage for Rust code
-- fetch canister_data
+- fetch canister data(nft collections trait data) as an Object array.
   - (trait_object_array, trait_array) = fetch_canister_data(canister_id);
-    
+    - trait_object_array example : [{"skin (texture)": "Dark", "Gender": "Male", "Move": "Breakdance Uprock", "Background": "Blue", "Cloths": "Casual Shirt/Pants"}, ... ... ...]
+  - trait_array  is array of collections trait properties.
+    - trait_array example : ["Move", "skin (texture)", "Background", "Cloths", "Gender", "Asssecrioes"]
+      
 - calculate traits_value from canister_data
   - traits_value = canister_data_to_traits_value(trait_object_array,trait_array);
     
