@@ -1,18 +1,18 @@
 # OutRank-Rarity
-we've implemented mathematical code to calculate rarity of NFT collections in both of Python and Rust
-- rarity_math_code_python.ipynb is for Python code and 
-- rarity_math_code_rust.rs is for Rust code.
-- script_for_fetch_data_from_canister.rs is for Rust code to fetch NFT collections trait data(we'll call this "canister data") by inter-canister call.
+We've implemented mathematical code to calculate rarity of NFT collections in both of Python and Rust
+- Rarity_math_code_python.ipynb is for Python code and 
+- Rarity_math_code_rust.rs is for Rust code.
+- Script_for_fetch_data_from_canister.rs is for Rust code to fetch NFT collections trait data(we'll call this "canister data") by inter-canister call.
 Here is a breif explanation for rarity_math_code_rust.rs.
 
 ## Basic Usage for Rust code
-- fetch canister data(nft collections trait data) as an Object array.
+- Fetch canister data(nft collections trait data) as an Object array.
   - (trait_object_array, trait_array) = fetch_canister_data(canister_id);
     - trait_object_array example : [{"skin (texture)": "Dark", "Gender": "Male", "Move": "Breakdance Uprock", "Background": "Blue", "Cloths": "Casual Shirt/Pants"}, ... ... ...]
   - trait_array  is array of collections trait properties.
     - trait_array example : ["Move", "skin (texture)", "Background", "Cloths", "Gender", "Asssecrioes"]
       
-- Calculate traits_value from canister_data. canister_data is an Object Array and convert it as Two-Dimensional Array. Row Index is NFT id. Column Index is same as trait_array.
+- Calculate traits_value from canister_data. Canister_data is an Object Array and convert it as Two-Dimensional Array. Row Index is NFT id. Column Index is same as trait_array.
   - traits_value = canister_data_to_traits_value(trait_object_array,trait_array);
     - traits_value example : [ [ "Breakdance Uprock", "Dark", "Blue", "Casual Shirt/ Pants", "Male", "NA" ], [ "Salsa (long)", "Light", "Yellow", "Jump Suit", "Male", "NA" ], ... ... ...]
     
@@ -28,27 +28,15 @@ Here is a breif explanation for rarity_math_code_rust.rs.
   - Fifth row is array of geometric value of column.
   - rarity_mat = rare_calc(traits_freq);
     
-- calculate rarity_score from rarity_mat. rarity_score is Two-Dementional array that contains normalized value between 0 and 1 of rarity_mat.
+- Calculate rarity_score from rarity_mat. rarity_score is Two-Dementional array that contains normalized value between 0 and 1 of rarity_mat.
   - rarity_score = score_calc(rarity_mat);
     
-- calculate rarity_rank from rarity_score. rarity_rank is Two-Dementional array contains rows sorted by value from rarity_score.
+- Calculate rarity_rank from rarity_score. rarity_rank is Two-Dementional array contains rows sorted by value from rarity_score.
   - rarity_rank = rare_rank(rarity_score);
     
-- calculate trait_independence from traits_freq
+- These two methods calculate trait_independence and trait_cramers_v from traits_freq. By calcuating Chi-Two-squared distribution.
   - trait_independence = trait_independence(traits_freq);
-    
-- calculate trait_cramers_v from traits_freq
   - trait_cramers_v = trait_cramers_v(traits_freq);
     
-- calculate trait_normalize from traits_value, traits_count, traits_freq
+- Calculate trait_normalize from traits_value, traits_count, traits_freq.Trait_normalize means trait normalised rarity score
   - trait_normalize = trait_normalize(reverse_mat(traits_value), traits_count, traits_freq);
-    
-
-## Now you can use these data.
-
-- rarity_rank: rarity_rank
-- rarity_score: rarity_score
-- trait_independence: trait_independence
-- trait_cramers_v: trait_cramers_v
-- trait_normalize: trait_normalize
-- trait_array: trait_array
