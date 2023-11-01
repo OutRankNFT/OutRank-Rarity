@@ -12,12 +12,14 @@ Here is a breif explanation for rarity_math_code_rust.rs.
   - trait_array  is array of collections trait properties.
     - trait_array example : ["Move", "skin (texture)", "Background", "Cloths", "Gender", "Asssecrioes"]
       
-- calculate traits_value from canister_data
+- Calculate traits_value from canister_data. canister_data is an Object Array and convert it as Two-Dimensional Array. Row Index is NFT id. Column Index is same as trait_array.
   - traits_value = canister_data_to_traits_value(trait_object_array,trait_array);
+    - traits_value example : [ [ "Breakdance Uprock", "Dark", "Blue", "Casual Shirt/ Pants", "Male", "NA" ], [ "Salsa (long)", "Light", "Yellow", "Jump Suit", "Male", "NA" ], ... ... ...]
     
-- calculate traits_count and traits_freq from reversed traits_value
+- Calculate traits_count and traits_freq from reversed traits_value. Reversed traits_value is also Two-Dimensional array. But Row Index is same as trait_array and Column Index is same as NFT id. traits_count represent count of same value in row(Each row is trait property) and traits_freq is same as NFTs count devided traits_count.
   - (traits_count, traits_freq) = get_traits_count_freq_number(reverse_mat(traits_value));
-    
+    - traits_count example : [ [2 ,2 ,1, 8, 8, 8, 2, 6, ...], [8, 12, 12, 12, 12, 12, 8, ...], ... ... ]
+    - traits_freq example : [ [0.0391, 0.03921, 0.01961, 0.15686, 0.15686, 0.15686, ... ], ... ]
 - calculate rarity_mat from traits_freq
   - rarity_mat = rare_calc(traits_freq);
     
