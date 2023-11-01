@@ -20,17 +20,19 @@ Here is a breif explanation for rarity_math_code_rust.rs.
   - (traits_count, traits_freq) = get_traits_count_freq_number(reverse_mat(traits_value));
     - traits_count example : [ [2 ,2 ,1, 8, 8, 8, 2, 6, ...], [8, 12, 12, 12, 12, 12, 8, ...], ... ... ]
     - traits_freq example : [ [0.0391, 0.03921, 0.01961, 0.15686, 0.15686, 0.15686, ... ], ... ]
-- calculate rarity_mat from traits_freq
+- calculate rarity_mat from traits_freq. rarity_mat has 5 rows.
+  - First row is array of min value of column.
+  - Second row is array of max value of column.
+  - Third row is array of arithmetic value of column.
+  - Fourth row is array of harmonic value of column.
+  - Fifth row is array of geometric value of column.
   - rarity_mat = rare_calc(traits_freq);
     
-- calculate rarity_score from rarity_mat
-  - mut rarity_score = score_calc(rarity_mat);
+- calculate rarity_score from rarity_mat. rarity_score is Two-Dementional array that contains normalized value between 0 and 1 of rarity_mat.
+  - rarity_score = score_calc(rarity_mat);
     
-- calculate rarity_rank from rarity_score
+- calculate rarity_rank from rarity_score. rarity_rank is Two-Dementional array contains rows sorted by value from rarity_score.
   - rarity_rank = rare_rank(rarity_score);
-    
-- add max-min field to rarity_score
-  - rarity_score = add_max_min_minus_to_rarity_score(rarity_score);
     
 - calculate trait_independence from traits_freq
   - trait_independence = trait_independence(traits_freq);
