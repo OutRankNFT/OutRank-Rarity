@@ -1,6 +1,10 @@
 # OutRank-Rarity
-
-## Basic Usage
+we've implemented mathematical code to calculate rarity of NFT collections in both of Python and Rust
+- rarity_math_code_python.ipynb is for Python code and 
+- rarity_math_code_rust.rs is for Rust code.
+- script_for_fetch_data_from_canister.rs is for Rust code to fetch NFT collections trait data(we'll call this "canister data") by inter-canister call.
+- Here is a breif explanation for rarity_math_code_rust.rs.
+## Basic Usage for Rust code
 - fetch canister_data
   - (trait_object_array, trait_array) = fetch_canister_data(canister_id);
     
